@@ -39,17 +39,15 @@ end
 
 ftp_configs = {}
 if hash_options[:ftp_config_file] != nil 
-	if !File::exist?(hash_options[:ftp_config_file])
+	if File::exist?(hash_options[:ftp_config_file])
 		lines=File.open(hash_options[:ftp_config_file]).readlines
 		ftp_configs[:host] = lines[0].gsub("\n","").gsub("\r","");
 		ftp_configs[:user] = lines[1].gsub("\n","").gsub("\r","");
 		ftp_configs[:pwd] = lines[2].gsub("\n","").gsub("\r","");
 	else
-		if !File::exist?(hash_options[:ftp_config_file])
-			puts 'The specified ftp config file path is not valid'
-			puts "'" << hash_options[:ftp_config_file] << "'"
-			exit
-		end
+		puts 'The specified ftp config file path is not valid'
+		puts "'" << hash_options[:ftp_config_file] << "'"
+		exit
 	end
 end
 
@@ -94,7 +92,7 @@ moveToFtp = Proc.new do |f,d|
 				next
 			end
 		end
-		#puts File.join(@destination+d,File.basename(f))
+		puts File.join(@destination+d,File.basename(f))
 		ftp.put(f, File.join(@destination+d,File.basename(f)))
 		ftp.close
 	end
